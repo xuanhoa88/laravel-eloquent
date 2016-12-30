@@ -124,4 +124,18 @@ class EloquentBuilder extends Builder
     {
         return $this->joinWhere($relation, 'right');
     }
+
+    /**
+     * Add a "cross join" clause to the query.
+     *
+     * @param  string  $table
+     * @param  string  $first
+     * @param  string  $operator
+     * @param  string  $second
+     * @return \Illuminate\Database\Query\Builder|static
+     */
+    public function crossJoin($relation)
+    {
+        return $this->join($relation, 'cross');
+    }
 }
