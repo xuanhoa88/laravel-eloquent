@@ -129,7 +129,7 @@ class EloquentBuilder extends Builder
      * Add a "cross join" clause to the query.
      *
      * @param  string  $relation
-     * @return \Illuminate\Database\Query\Builder|static
+     * @return EloquentBuilder|static
      */
     public function crossJoin($relation)
     {
