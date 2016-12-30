@@ -1,0 +1,25 @@
+{
+    "name": "llama-laravel/eloquent",
+    "description": "Extends Laravel Eloquent ORM.",
+    "keywords": ["laravel", "llama", "eloquent", "join"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "XuaNguyen",
+            "email": "xuan.0211@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Llama\\Database\\Eloquent\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/database": "^5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8",
+        "mockery/mockery": "~0.9.1"
+    }
+}
