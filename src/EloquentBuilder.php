@@ -128,10 +128,7 @@ class EloquentBuilder extends Builder
     /**
      * Add a "cross join" clause to the query.
      *
-     * @param  string  $table
-     * @param  string  $first
-     * @param  string  $operator
-     * @param  string  $second
+     * @param  string  $relation
      * @return \Illuminate\Database\Query\Builder|static
      */
     public function crossJoin($relation)
