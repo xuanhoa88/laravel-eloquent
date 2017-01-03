@@ -11,53 +11,59 @@ class EloquentBuilder extends Builder
     /**
      * Add a join clause to the query.
      *
-     * @param string $relation
+     * @param  array|string  $relations
      * @param string $type
      * @param bool   $where
      *
      * @return EloquentBuilder
      */
-    public function join($relationName, $type = 'inner', $where = false)
+    public function join($relations, $type = 'inner', $where = false)
     {
-        $relation = $this->getRelation($relationName);
-
-        if ($relation instanceof BelongsTo) {
-            $this->query->join(
-                $relation->getRelated()->getTable(),
-                $this->model->getTable() . '.' . $relation->getForeignKey(),
-                '=',
-                $relation->getRelated()->getTable() . '.' . $relation->getOtherKey(),
-                $type,
-                $where
-            );
-        } elseif ($relation instanceof BelongsToMany) {
-            $this->query->join(
-                $relation->getTable(),
-                $relation->getQualifiedParentKeyName(),
-                '=',
-                $relation->getForeignKey(),
-                $type,
-                $where
-            );
-
-            $this->query->join(
-                $relation->getRelated()->getTable(),
-                $relation->getRelated()->getTable() . '.' . $relation->getRelated()->getKeyName(),
-                '=',
-                $relation->getOtherKey(),
-                $type,
-                $where
-            );
-        } else {
-            $this->query->join(
-                $relation->getRelated()->getTable(),
-                $relation->getQualifiedParentKeyName(),
-                '=',
-                $relation->getForeignKey(),
-                $type,
-                $where
-            );
-        }
+    	if (is_string($relations)) {
+    		$relations = [$relations];
+    	}
+    	
+    	foreach ($relations as $relation) {
+	        $relation = $this->getRelation($relation);
+	
+	        if ($relation instanceof BelongsTo) {
+	            $this->query->join(
+	                $relation->getRelated()->getTable(),
+	                $this->model->getTable() . '.' . $relation->getForeignKey(),
+	                '=',
+	                $relation->getRelated()->getTable() . '.' . $relation->getOtherKey(),
+	                $type,
+	                $where
+	            );
+	        } elseif ($relation instanceof BelongsToMany) {
+	            $this->query->join(
+	                $relation->getTable(),
+	                $relation->getQualifiedParentKeyName(),
+	                '=',
+	                $relation->getForeignKey(),
+	                $type,
+	                $where
+	            );
+	
+	            $this->query->join(
+	                $relation->getRelated()->getTable(),
+	                $relation->getRelated()->getTable() . '.' . $relation->getRelated()->getKeyName(),
+	                '=',
+	                $relation->getOtherKey(),
+	                $type,
+	                $where
+	            );
+	        } else {
+	            $this->query->join(
+	                $relation->getRelated()->getTable(),
+	                $relation->getQualifiedParentKeyName(),
+	                '=',
+	                $relation->getForeignKey(),
+	                $type,
+	                $where
+	            );
+	        }
+    	}
 
         $this->query->addSelect($this->model->getTable() . '.*');
 
@@ -67,62 +73,62 @@ class EloquentBuilder extends Builder
     /**
      * Add a "join where" clause to the query.
      *
-     * @param string $relation
+     * @param  array|string  $relations
      * @param string $type
      *
      * @return EloquentBuilder|static
      */
-    public function joinWhere($relation, $type = 'inner')
+    public function joinWhere($relations, $type = 'inner')
     {
-        return $this->join($relation, $type, true);
+        return $this->join($relations, $type, true);
     }
 
     /**
      * Add a left join to the query.
      *
-     * @param string $relation
+     * @param  array|string  $relations
      *
      * @return EloquentBuilder|static
      */
-    public function leftJoin($relation)
+    public function leftJoin($relations)
     {
-        return $this->join($relation, 'left');
+        return $this->join($relations, 'left');
     }
 
     /**
      * Add a "join where" clause to the query.
      *
-     * @param string $relation
+     * @param  array|string  $relations
      *
      * @return EloquentBuilder|static
      */
-    public function leftJoinWhere($relation)
+    public function leftJoinWhere($relations)
     {
-        return $this->joinWhere($relation, 'left');
+        return $this->joinWhere($relations, 'left');
     }
 
     /**
      * Add a right join to the query.
      *
-     * @param string $relation
+     * @param  array|string  $relations
      *
      * @return EloquentBuilder|static
      */
-    public function rightJoin($relation)
+    public function rightJoin($relations)
     {
-        return $this->join($relation, 'right');
+        return $this->join($relations, 'right');
     }
 
     /**
      * Add a "right join where" clause to the query.
      *
-     * @param string $relation
+     * @param  array|string  $relations
      *
      * @return EloquentBuilder|static
      */
-    public function rightJoinWhere($relation)
+    public function rightJoinWhere($relations)
     {
-        return $this->joinWhere($relation, 'right');
+        return $this->joinWhere($relations, 'right');
     }
 
     /**
@@ -131,8 +137,8 @@ class EloquentBuilder extends Builder
      * @param  string  $relation
      * @return EloquentBuilder|static
      */
-    public function crossJoin($relation)
+    public function crossJoin($relations)
     {
-        return $this->join($relation, 'cross');
+        return $this->join($relations, 'cross');
     }
 }
